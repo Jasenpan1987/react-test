@@ -167,3 +167,5 @@ module.exports = {
   ),
 }
 ```
+
+## 2. Writing test
