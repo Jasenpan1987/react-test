@@ -168,4 +168,51 @@ module.exports = {
 }
 ```
 
-## 2. Writing test
+## 2. Basic Tests
+
+1.  create a container to render the component
+
+```jsx
+const div = document.createElement('div')
+ReactDOM.render(<Login onSubmit={fakeOnSubmit} />, div)
+```
+
+2.  provide the required props by injecting them into the component
+
+```jsx
+const fakeUser = {
+  username: 'foo',
+  password: 'bar',
+}
+```
+
+3.  create fake data or mock handlers
+
+```jsx
+const fakeOnSubmit = jest.fn()
+```
+
+4.  dispatch events with the parameters
+
+```jsx
+const form = div.querySelector('form')
+const {username, password} = form.elements
+
+username.value = fakeUser.username
+password.value = fakeUser.password
+
+const submit = new window.Event('submit')
+form.dispatchEvent(submit)
+```
+
+5.  making assertions
+
+```jsx
+expect(fakeOnSubmit).toHaveBeenCalledTimes(1)
+expect(fakeOnSubmit).toBeCalledWith({
+  username: fakeUser.username,
+  password: fakeUser.password,
+})
+```
+
+This is the basic steps for testing a react component, and this is also what happened behind the scene for some framework and abstractions.
