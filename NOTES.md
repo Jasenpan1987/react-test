@@ -216,3 +216,46 @@ expect(fakeOnSubmit).toBeCalledWith({
 ```
 
 This is the basic steps for testing a react component, and this is also what happened behind the scene for some framework and abstractions.
+
+## 3. react-testing-library
+
+Here we use the `react-testing-library` rather than `enzyme` for the following reasons:
+
+1.  The `shallow render` doesn't work well when refactor the code (extract a part of the code into a separate component...)
+
+2.  `enzyme` always returns back a `container/wrapper`, which not very easy to use.
+
+3.  `react-testing-library` added methods like `getByText` and `getByTestId` are either more close to the ways that users using the app or make the test cases more resilient to refactors.
+
+```jsx
+import React from 'react'
+import {generate} from 'til-client-test-utils'
+import {render, Simulate} from 'react-testing-library'
+// note that til-client-test-utils is found in `client/test/til-client-test-utils`
+import Login from '../login'
+
+test('calls onSubmit with the username and password when submitted', () => {
+  const fakeUser = generate.loginForm()
+  const handleSubmit = jest.fn()
+  const {container, getByLabelText, getByText} = render(
+    <Login onSubmit={handleSubmit} />,
+  )
+
+  const usernameNode = getByLabelText('Username')
+  const passwordNode = getByLabelText('Password')
+
+  const formNode = container.querySelector('form')
+  const submitButtonNode = getByText('Submit')
+
+  usernameNode.value = fakeUser.username
+  passwordNode.value = fakeUser.password
+
+  Simulate.submit(formNode)
+
+  expect(handleSubmit).toHaveBeenCalledTimes(1)
+  expect(handleSubmit).toHaveBeenCalledWith(fakeUser)
+  expect(submitButtonNode.type).toBe('submit')
+})
+```
+
+for more infomation about `react-testing-library` check out [here](https://github.com/kentcdodds/react-testing-library).
