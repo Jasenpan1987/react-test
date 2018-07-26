@@ -1,7 +1,7 @@
 // snapshot testing
 import React from 'react'
 import {generate} from 'til-client-test-utils'
-import {renderIntoDocument, cleanup} from 'react-testing-library'
+import {renderIntoDocument, cleanup, render} from 'react-testing-library'
 import Login from '../login'
 
 afterEach(cleanup)
@@ -28,8 +28,9 @@ test('calls onSubmit with the username and password when submitted', () => {
 })
 
 test('snapshot', () => {
-  // render the login, this will give you back an object with a `container` property
-  // expect the `container` property to match a snapshot
+  const handleSubmit = jest.fn()
+  const {container} = render(<Login onSubmit={handleSubmit} />)
+  expect(container.firstChild).toMatchSnapshot() // container always a div
 })
 
 //////// Elaboration & Feedback /////////

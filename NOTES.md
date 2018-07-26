@@ -259,3 +259,29 @@ test('calls onSubmit with the username and password when submitted', () => {
 ```
 
 for more infomation about `react-testing-library` check out [here](https://github.com/kentcdodds/react-testing-library).
+
+## 3. Snapshot testing
+
+Snapshot is like a stringified object that records the data, and use it to match the next testing object.
+
+In jest, all snapshots will be automatically generated in the `__snapshots__` directory, and in the jest command line tool, press "u" to update the snapshots. Here is an example of testing against the snapshot:
+
+```jsx
+test('snapshot', () => {
+  const handleSubmit = jest.fn()
+  const {container} = render(<Login onSubmit={handleSubmit} />)
+  expect(container.firstChild).toMatchSnapshot() // container always a div
+})
+```
+
+Here, we don't event have to provide the `onSubmit` prop, because we don't care about it at this moment. And if we use `jss in js`, all the css are also can be snapshot.
+
+- When to use snapshot testing:
+
+1.  if we don't want to copy and paste some data all the time.
+2.  when writing a babel plugin
+
+- When NOT to use snapshot testing:
+
+1.  TDD
+2.  HUGE snapshots

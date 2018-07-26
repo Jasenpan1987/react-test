@@ -121,6 +121,7 @@ Snapshot tests below. We'll cover these later
 
 test('manual "snapshot"', () => {
   const flyingHeros = getFlyingSuperHeros()
+  console.log(flyingHeros)
   expect(flyingHeros).toEqual([
     {name: 'Dynaguy', powers: ['disintegration ray', 'fly']},
     {name: 'Apogee', powers: ['gravity control', 'fly']},
