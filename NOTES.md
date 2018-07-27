@@ -275,13 +275,3 @@ test('snapshot', () => {
 ```
 
 Here, we don't event have to provide the `onSubmit` prop, because we don't care about it at this moment. And if we use `jss in js`, all the css are also can be snapshot.
-
-- When to use snapshot testing:
-
-1.  if we don't want to copy and paste some data all the time.
-2.  when writing a babel plugin
-
-- When NOT to use snapshot testing:
-
-1.  TDD
-2.  HUGE snapshots
